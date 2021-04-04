@@ -13,18 +13,29 @@ namespace TP2
         {
             _idMedecin = idMedecin;
         }
+        public Medecin(string prenom, string nom, int idMedecin, DateTime retraite) : base(prenom,nom)
+        {
+            _retraite = retraite;
+        }
         public Medecin()
         {
-
-            Console.WriteLine("Code d'identification: ");
-            _idMedecin = Convert.ToInt32(Console.ReadLine());
-
-            while (_idMedecin < IDMIN && _idMedecin > IDMAX)
+            try
             {
-                Console.WriteLine("Valeur incorrecte. Doit être un entier entre {0} et {1}", IDMIN, IDMAX);
-                Console.Write("Code d'identification: ");
+                Console.WriteLine("Code d'identification: ");
                 _idMedecin = Convert.ToInt32(Console.ReadLine());
+
+                while (_idMedecin < IDMIN && _idMedecin > IDMAX)
+                {
+                    Console.WriteLine("Valeur incorrecte. Doit être un entier entre {0} et {1}", IDMIN, IDMAX);
+                    Console.Write("Code d'identification: ");
+                    _idMedecin = Convert.ToInt32(Console.ReadLine());
+                }
             }
+            catch (FormatException)
+            {
+                Console.WriteLine("Le champ ne peut pas contenir de lettre.");
+            }
+
 
         }
         public DateTime DateRetraite

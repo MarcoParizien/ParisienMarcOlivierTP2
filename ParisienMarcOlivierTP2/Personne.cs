@@ -18,8 +18,7 @@ namespace TP2
 
             Console.Write("Prénom: ");
             _prenom = Console.ReadLine().Trim();
-            Console.WriteLine();
-
+ 
             while (Prenom.Length == 0)
             {
                 Console.WriteLine("Ne peut pas être vide");
@@ -29,7 +28,6 @@ namespace TP2
 
             Console.Write("Nom: ");
             _nom = Console.ReadLine().Trim();
-            Console.WriteLine();
 
             while (_nom.Length == 0)
             {
@@ -37,10 +35,8 @@ namespace TP2
                 Console.Write("Nom: ");
                 _nom = Console.ReadLine().Trim();
             }
-
-
-
         }
+
         public string Prenom
         {
             get { return _prenom; }

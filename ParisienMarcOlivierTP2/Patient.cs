@@ -8,9 +8,13 @@ namespace TP2
 {
     class Patient : Personne
     {
+        public Patient(string prenom, string nom, int idPatient, DateTime deces):base(prenom,nom)
+        {
+            _deces = deces;
+        }
         public Patient(string prenom, string nom, int idPatient) : base(prenom, nom)
         {
-
+            _idPatient = idPatient;
         }
         public Patient()
         {
@@ -25,6 +29,17 @@ namespace TP2
             }
         }
 
+        public DateTime Deces
+        {
+            get { return _deces; }
+        }
+
+        public int IdPatient
+        {
+            get { return _idPatient; }
+        }
+
+        private readonly DateTime _deces;
         private const string nomFichierPatients = "patients.txt";
         private readonly int _idPatient;
         private readonly int _nam; //numéro d'assurance maladie
