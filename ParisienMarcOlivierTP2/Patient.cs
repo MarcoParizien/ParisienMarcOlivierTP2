@@ -20,11 +20,11 @@ namespace TP2
             _idPatient = idPatient;
             _deces = deces;
         }
-        public Patient(string prenom, string nom, int idPatient, DateTime deces, Medecin unMedecin) : base(prenom, nom)
+        public Patient(string prenom, string nom, int idPatient,  Medecin unMedecin) : base(prenom, nom)
         {
             _monMedic = unMedecin;
             _idPatient = idPatient;
-            _deces = deces;
+           
         }
         /// <summary>
         /// Constructeur de patient avec paramètre, mais sans la date de décés. Sera appelé lors de la lecture du fichier

@@ -143,7 +143,7 @@ namespace TP2
         {
             Console.WriteLine("---------------------");
             Console.WriteLine("Liste des medecins");
-            _medecins.Sort();
+           // _medecins.Sort();
             foreach (var m in _medecins)
             {
                 if (m.Retraite)
@@ -164,6 +164,6 @@ namespace TP2
 
         private const string estRetraite = "Retraité";
         private const string _nomFichierMedecin = "medecins.txt";
-        List<Medecin> _medecins = new List<Medecin>();
+        public List<Medecin> _medecins = new List<Medecin>();
     }
 }

@@ -13,9 +13,10 @@ namespace TP2
         {
             try
             {
+                _unMedecin = unMedecin;
+
                 using (StreamReader fichierLecture = new StreamReader(_nomFichierPatient))
                 {
-                    
 
                     while (!fichierLecture.EndOfStream)
                     {
@@ -26,17 +27,28 @@ namespace TP2
                         string nom = elementsLu[1];
                         string prenom = elementsLu[2];
 
+                        if (elementsLu.Length == 5 && elementsLu[3] == "")
+                        {
+                            int numeroMedecin = Convert.ToInt32(elementsLu[4]);
+
+                            foreach (var m in unMedecin._medecins)
+                            {
+                                if (numeroMedecin == m.Identification)
+                                {
+                                    Medecin sonMedecin = m;
+                                    _patients.Add(new Patient(prenom, nom, idPatient, m));
+                                    break;
+                                }
+                            }
+
+                        }
+
                         if (elementsLu[3] != "")
                         {
                             DateTime deces = Convert.ToDateTime(elementsLu[3]);
                             _patients.Add(new Patient(prenom, nom, idPatient, deces));
                         }
-                        else
-                        {
-                            _patients.Add(new Patient(prenom, nom, idPatient));
-                        }
 
-                        ligneLue = fichierLecture.ReadLine();
                     }
                 }
             }
@@ -64,7 +76,7 @@ namespace TP2
                         }
                         else
                         {
-                            sb.AppendFormat("{0};{1};{2};", p.IdPatient, p.Prenom, p.Nom);
+                            sb.AppendFormat("{0};{1};{2};{3}", p.IdPatient, p.Prenom, p.Nom, p.SonMedecin.Identification);
                             fichierEcriture.WriteLine(sb.ToString());
                         }
 
@@ -147,6 +159,7 @@ namespace TP2
 
         }
 
+        private GestionnaireMedecins _unMedecin;
         private const string _nomFichierPatient = "patients.txt";
         List<Patient> _patients = new List<Patient>();
     }
