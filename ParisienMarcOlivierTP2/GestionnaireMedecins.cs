@@ -15,10 +15,10 @@ namespace TP2
             {
                 using (StreamReader fichierLecture = new StreamReader(_nomFichierMedecin))
                 {
-                    string ligneLue = fichierLecture.ReadLine();
-
-                    while (ligneLue != null)
+                    while (!fichierLecture.EndOfStream)
                     {
+                        string ligneLue = fichierLecture.ReadLine();
+
                         string[] elementsLu = ligneLue.Split(';');
                         int idMedecin = Convert.ToInt32(elementsLu[0]);
                         string nom = elementsLu[1];
@@ -33,8 +33,6 @@ namespace TP2
                         {
                             _medecins.Add(new Medecin(prenom, nom, idMedecin));
                         }
-
-                        ligneLue = fichierLecture.ReadLine();
                     }
                 }
             }
@@ -52,17 +50,19 @@ namespace TP2
                 using (StreamWriter fichierEcriture = new StreamWriter(_nomFichierMedecin))
                 {
                     foreach (Medecin m in _medecins)
-                    {   
+                    {
                         StringBuilder sb = new StringBuilder();
+                        string dateCourte;
+
                         if (m.DateRetraite != default(DateTime))
                         {
-                            
-                            sb.AppendFormat("{0};{1};{2};{3}", m.Identification, m.Prenom, m.Nom, m.DateRetraite);
+                            dateCourte = m.DateRetraite.ToShortDateString();
+                            sb.AppendFormat("{0};{1};{2};{3}", m.Identification, m.Prenom, m.Nom, dateCourte);
                             fichierEcriture.WriteLine(sb.ToString());
                         }
                         else
                         {
-                            sb.AppendFormat("{0};{1};{2};{3}", m.Identification, m.Prenom, m.Nom);
+                            sb.AppendFormat("{0};{1};{2};", m.Identification, m.Prenom, m.Nom);
                             fichierEcriture.WriteLine(sb.ToString());
                         }
 
@@ -105,6 +105,7 @@ namespace TP2
                     {
                         Console.Write("Entrer la date de retraite (A/M/J) : ");
                         DateTime laDate = Convert.ToDateTime(Console.ReadLine());
+                        _medecins.Remove(m);
                         _medecins.Add(new Medecin(m.Prenom, m.Nom, m.Identification, laDate));
                     }
                     else
@@ -120,17 +121,38 @@ namespace TP2
         }
         public void AfficherStatistiques()
         {
-
+            int medRetraite = 0;
+            int medTotal = _medecins.Count();
+            foreach (var m in _medecins)
+            {
+                if (m.Retraite)
+                {
+                    medRetraite++;
+                }
+            }
+            if (medRetraite > 0)
+            {
+                Console.WriteLine("Il y a {0} medecins dont {1} retraité(s).", medTotal, medRetraite);
+            }
+            else
+            {
+                Console.WriteLine("Il y a {0} medecin(s).", medTotal);
+            }
         }
         public void AfficherListe()
         {
             Console.WriteLine("---------------------");
             Console.WriteLine("Liste des medecins");
+            _medecins.Sort();
             foreach (var m in _medecins)
             {
                 if (m.Retraite)
                 {
-                    Console.WriteLine("{0} {2} {3} ", m.Identification, m.Nom, m.Prenom  + estRetraite);
+                    Console.WriteLine("{0} {1} {2} ", m.Identification, m.Nom, m.Prenom + " " + estRetraite);
+                }
+                else
+                {
+                    Console.WriteLine("{0} {1} {2} ", m.Identification, m.Nom, m.Prenom);
                 }
             }
             Console.ReadKey(true);

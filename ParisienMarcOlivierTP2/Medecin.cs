@@ -15,6 +15,7 @@ namespace TP2
         }
         public Medecin(string prenom, string nom, int idMedecin, DateTime retraite) : base(prenom, nom)
         {
+            _idMedecin = idMedecin;
             _retraite = retraite;
         }
         public Medecin()
@@ -49,7 +50,7 @@ namespace TP2
             get { return _idMedecin; }
         }
 
-        private List<Patient> _patients = new List<Patient>();
+        private List<Patient> _mesPatients = new List<Patient>();
         protected DateTime _retraite;
         private readonly int _idMedecin;
         private const int IDMIN = 100;

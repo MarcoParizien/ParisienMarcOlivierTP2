@@ -17,6 +17,13 @@ namespace TP2
         /// <param name="deces">Date de son décés</param>
         public Patient(string prenom, string nom, int idPatient, DateTime deces) : base(prenom, nom)
         {
+            _idPatient = idPatient;
+            _deces = deces;
+        }
+        public Patient(string prenom, string nom, int idPatient, DateTime deces, Medecin unMedecin) : base(prenom, nom)
+        {
+            _monMedic = unMedecin;
+            _idPatient = idPatient;
             _deces = deces;
         }
         /// <summary>
@@ -63,8 +70,12 @@ namespace TP2
         {
             get { return _idPatient; }
         }
-
+        public Medecin SonMedecin
+        {
+            get { return _monMedic; }
+        }
         private readonly DateTime _deces;
+        private readonly Medecin _monMedic;
         private const string nomFichierPatients = "patients.txt";
         private readonly int _idPatient;
         private readonly int _nam; //numéro d'assurance maladie
