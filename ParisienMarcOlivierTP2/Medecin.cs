@@ -13,7 +13,7 @@ namespace TP2
         {
             _idMedecin = idMedecin;
         }
-        public Medecin(string prenom, string nom, int idMedecin, DateTime retraite) : base(prenom,nom)
+        public Medecin(string prenom, string nom, int idMedecin, DateTime retraite) : base(prenom, nom)
         {
             _retraite = retraite;
         }
@@ -21,7 +21,7 @@ namespace TP2
         {
             try
             {
-                Console.WriteLine("Code d'identification: ");
+                Console.Write("Code d'identification: ");
                 _idMedecin = Convert.ToInt32(Console.ReadLine());
 
                 while (_idMedecin < IDMIN && _idMedecin > IDMAX)
@@ -35,8 +35,10 @@ namespace TP2
             {
                 Console.WriteLine("Le champ ne peut pas contenir de lettre.");
             }
-
-
+        }
+        public bool Retraite
+        {
+            get { return _retraite != default(DateTime) ? true : false; }
         }
         public DateTime DateRetraite
         {
@@ -48,7 +50,7 @@ namespace TP2
         }
 
         private List<Patient> _patients = new List<Patient>();
-        private DateTime _retraite;
+        protected DateTime _retraite;
         private readonly int _idMedecin;
         private const int IDMIN = 100;
         private const int IDMAX = 999;

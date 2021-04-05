@@ -24,7 +24,7 @@ namespace TP2
                         string nom = elementsLu[1];
                         string prenom = elementsLu[2];
 
-                        if (elementsLu[3] != null)
+                        if (elementsLu[3] != "")
                         {
                             DateTime deces = Convert.ToDateTime(elementsLu[3]);
                             _patients.Add(new Patient(prenom, nom, idPatient, deces));
@@ -53,8 +53,17 @@ namespace TP2
                     foreach (Patient p in _patients)
                     {
                         StringBuilder sb = new StringBuilder();
-                        sb.AppendFormat("{0};{1};{2};{3}", p.IdPatient, p.Prenom, p.Nom, p.Deces);
-                        Console.WriteLine(sb.ToString());
+                        if (p.Deces != default(DateTime))
+                        {
+                            sb.AppendFormat("{0};{1};{2};{3}", p.IdPatient, p.Prenom, p.Nom, p.Deces);
+                            fichierEcriture.WriteLine(sb.ToString());
+                        }
+                        else
+                        {
+                            sb.AppendFormat("{0};{1};{2};{3}", p.IdPatient, p.Prenom, p.Nom);
+                            fichierEcriture.WriteLine(sb.ToString());
+                        }
+
                     }
                 }
             }
@@ -66,7 +75,16 @@ namespace TP2
         }
         public void Ajouter()
         {
-            _patients.Add(new Patient());
+            Patient unPatient = new Patient();
+            foreach (var p in _patients)
+            {
+                if (p.IdPatient == unPatient.IdPatient)
+                {
+                    Console.WriteLine("Impossible d'ajouter le patient. Ce numéro d'assurance maladie existe déjà.");
+                    return;
+                }
+            }
+            _patients.Add(unPatient);
             Console.WriteLine("Patient ajouté!");
         }
         public void IndiquerDeces()
@@ -85,6 +103,7 @@ namespace TP2
         {
 
         }
+
         private const string _nomFichierPatient = "patients.txt";
         List<Patient> _patients = new List<Patient>();
     }
