@@ -116,7 +116,9 @@ namespace TP2
                         medecinMinPatient = m;
                     }
                 }
+                
                 medecinMinPatient.PatientSuivi.Add(_patients[_patients.Count - 1]); //Ajoute le dernier patient ajouté à la liste de patient du medecin
+                unPatient.SonMedecin = medecinMinPatient;
             }
             Console.WriteLine("Patient ajouté!");
             Console.ReadKey(true);
@@ -137,12 +139,15 @@ namespace TP2
                         DateTime laDate = Convert.ToDateTime(Console.ReadLine());
                         _patients.Remove(p);
                         _patients.Add(new Patient(p.Prenom, p.Nom, p.IdPatient, laDate));
+                        break;
                     }
                     else
                     {
                         Console.WriteLine("Désolé de vous l'apprendre, mais il est déjà mort");
+                        break;
                     }
                 }
+                Console.ReadKey(true);
             }
             catch (Exception e)
             {
@@ -227,6 +232,7 @@ namespace TP2
                         {
                             Console.WriteLine("---------------------");
                             Console.WriteLine("Patient");
+                            Console.WriteLine("Numéro d'assurance maladie : " + p.IdPatient);
                             Console.WriteLine("Nom : {0} {1} ", p.Prenom, p.Nom);
                             Console.WriteLine("Décédé le {0}", p.Deces.ToShortDateString());
                             break;

@@ -83,10 +83,11 @@ namespace TP2
         public Medecin SonMedecin
         {
             get { return _monMedic; }
+            set { value = _monMedic; }
         }
 
         private readonly DateTime _deces;
-        private readonly Medecin _monMedic;
+        private  Medecin _monMedic;
         private const string nomFichierPatients = "patients.txt";
         private readonly int _idPatient;
         private readonly int _nam; //numéro d'assurance maladie
