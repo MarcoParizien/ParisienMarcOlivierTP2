@@ -20,11 +20,11 @@ namespace TP2
             _idPatient = idPatient;
             _deces = deces;
         }
-        public Patient(string prenom, string nom, int idPatient,  Medecin unMedecin) : base(prenom, nom)
+        public Patient(string prenom, string nom, int idPatient, Medecin unMedecin) : base(prenom, nom)
         {
             _monMedic = unMedecin;
             _idPatient = idPatient;
-           
+
         }
         /// <summary>
         /// Constructeur de patient avec paramètre, mais sans la date de décés. Sera appelé lors de la lecture du fichier
@@ -42,14 +42,24 @@ namespace TP2
         /// </summary>
         public Patient()
         {
+            
             Console.Write("Numéro d'assurance maladie: ");
             _nam = Convert.ToInt32(Console.ReadLine());
 
-            while (_nam < 1000 || _nam > 9999)
+            while (_nam < NAM_MIN || _nam > NAM_MAX)
             {
-                Console.WriteLine("Valeur incorrecte. Le numéro d'assurance maladie doit être entre {0} et {1}", NAM_MIN, NAM_MAX);
-                Console.Write("Numéro d'assurance maladie: ");
-                _nam = Convert.ToInt32(Console.ReadLine());
+                try
+                {
+                    Console.WriteLine("Valeur incorrecte. Le numéro d'assurance maladie doit être entre {0} et {1}", NAM_MIN, NAM_MAX);
+                    Console.Write("Numéro d'assurance maladie: ");
+                    _nam = Convert.ToInt32(Console.ReadLine());
+                }
+                catch (FormatException)
+                {
+
+                    Console.WriteLine("Le champ ne doit pas contenir de lettre! ");
+                }
+
             }
         }
         /// <summary>
@@ -74,6 +84,7 @@ namespace TP2
         {
             get { return _monMedic; }
         }
+
         private readonly DateTime _deces;
         private readonly Medecin _monMedic;
         private const string nomFichierPatients = "patients.txt";

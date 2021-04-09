@@ -93,12 +93,12 @@ namespace TP2
         }
         public void IndiquerRetraite()
         {
+
+            Console.WriteLine("-----------------------------");
+            Console.Write("Code d'identification : ");
+            int id = Convert.ToInt32(Console.ReadLine());
             try
             {
-                Console.WriteLine("-----------------------------");
-                Console.Write("Code d'identification : ");
-                int id = Convert.ToInt32(Console.ReadLine());
-
                 foreach (var m in _medecins)
                 {
                     if (id == m.Identification && !m.Retraite)
@@ -143,7 +143,7 @@ namespace TP2
         {
             Console.WriteLine("---------------------");
             Console.WriteLine("Liste des medecins");
-           // _medecins.Sort();
+
             foreach (var m in _medecins)
             {
                 if (m.Retraite)
@@ -159,7 +159,31 @@ namespace TP2
         }
         public void AfficherUnique()
         {
+          
+            Console.WriteLine("Entrez un identifiant : ");
+            int idMedecin = Convert.ToInt32(Console.ReadLine());
 
+            while (idMedecin < 100 || idMedecin > 999)
+            {
+                Console.WriteLine("L'identifiant doit être entre {0} et {1} ", 100, 999);
+                idMedecin = Convert.ToInt32(Console.ReadLine());
+            }
+
+            foreach (var m in _medecins)
+            {
+                if (idMedecin == m.Identification && !m.Retraite)
+                {
+                    Console.WriteLine("Code d'identification {0}", m.Identification);
+                    Console.WriteLine("Nom : {0} {1}", m.Prenom, m.Nom);
+                    Console.WriteLine("---------------------------");
+                    Console.WriteLine("Liste de patients");
+                    foreach (var p in m.PatientSuivi)
+                    {
+                        Console.WriteLine("{0} {1} {2}", p.IdPatient, p.Prenom, p.Nom);  
+                    }
+                }
+            }
+            Console.ReadKey(true);
         }
 
         private const string estRetraite = "Retraité";

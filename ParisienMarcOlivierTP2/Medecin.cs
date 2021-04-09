@@ -20,22 +20,24 @@ namespace TP2
         }
         public Medecin()
         {
-            try
-            {
-                Console.Write("Code d'identification: ");
-                _idMedecin = Convert.ToInt32(Console.ReadLine());
 
-                while (_idMedecin < IDMIN && _idMedecin > IDMAX)
+            Console.Write("Code d'identification: ");
+            _idMedecin = Convert.ToInt32(Console.ReadLine());
+
+            while (_idMedecin < IDMIN && _idMedecin > IDMAX)
+            {
+                try
                 {
                     Console.WriteLine("Valeur incorrecte. Doit être un entier entre {0} et {1}", IDMIN, IDMAX);
                     Console.Write("Code d'identification: ");
                     _idMedecin = Convert.ToInt32(Console.ReadLine());
                 }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Le champ ne peut pas contenir de lettre.");
+                }
             }
-            catch (FormatException)
-            {
-                Console.WriteLine("Le champ ne peut pas contenir de lettre.");
-            }
+
         }
         public bool Retraite
         {
@@ -49,11 +51,15 @@ namespace TP2
         {
             get { return _idMedecin; }
         }
+        public List<Patient> PatientSuivi
+        {
+            get { return _sesPatients; }
+        }
 
-        private List<Patient> _mesPatients = new List<Patient>();
+        protected List<Patient> _sesPatients = new List<Patient>();
         protected DateTime _retraite;
         private readonly int _idMedecin;
-        private const int IDMIN = 100;
-        private const int IDMAX = 999;
+        public readonly int IDMIN = 100;
+        public const int IDMAX = 999;
     }
 }
