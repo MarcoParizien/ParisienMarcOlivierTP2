@@ -36,7 +36,7 @@ namespace TP2
                                 if (numeroMedecin == m.Identification)
                                 {
                                     Medecin sonMedecin = m;
-                                    _patients.Add(new Patient(prenom, nom, idPatient, m));
+                                    _patients.Add(new Patient(prenom, nom, idPatient, m)); //Appel du constructeur de patient avec un medecin en paramètre
                                     m.PatientSuivi.Add(_patients[_patients.Count - 1]);
                                     break;
                                 }
@@ -111,13 +111,14 @@ namespace TP2
 
                 foreach (var m in _gestionMedecin._medecins)
                 {
-                    if (m.PatientSuivi.Count < medecinMinPatient.PatientSuivi.Count && !m.Retraite)
+
+                    if (m.PatientSuivi.Count < medecinMinPatient.PatientSuivi.Count)
                     {
                         medecinMinPatient = m;
                     }
+
                 }
-                
-                medecinMinPatient.PatientSuivi.Add(_patients[_patients.Count - 1]); //Ajoute le dernier patient ajouté à la liste de patient du medecin
+                medecinMinPatient.PatientSuivi.Add(_patients[_patients.Count - 1]); //Ajoute le dernier patient créé à la liste de patient du medecin ayant le moins de patient
                 unPatient.SonMedecin = medecinMinPatient;
             }
             Console.WriteLine("Patient ajouté!");
@@ -167,7 +168,7 @@ namespace TP2
             }
             if (patientMort > 0)
             {
-                Console.WriteLine("Il y a {0} patient dont {1} mort(s).", patientTotal, patientMort);
+                Console.WriteLine("Il y a {0} patient(s) dont {1} mort(s).", patientTotal, patientMort);
             }
             else
             {
@@ -181,16 +182,15 @@ namespace TP2
 
             foreach (var p in _patients)
             {
+                Console.Write("{0} {1} {2}", p.IdPatient, p.Prenom, p.Nom);
 
                 if (!p.Mort)
                 {
-                    Console.Write("{0} {1} {2}", p.IdPatient, p.Prenom, p.Nom);
                     Console.Write(" - Medecin - {0} {1} {2}", p.SonMedecin.Identification, p.SonMedecin.Prenom, p.SonMedecin.Nom);
                     Console.WriteLine();
                 }
                 else
                 {
-                    Console.Write("{0} {1} {2}", p.IdPatient, p.Prenom, p.Nom);
                     Console.Write(" Décédé.");
                     Console.WriteLine();
                 }
@@ -201,7 +201,6 @@ namespace TP2
         public void AfficherUnique()
         {
 
-
             if (_patients.Count > 0)
             {
 
@@ -211,32 +210,34 @@ namespace TP2
 
                 try
                 {
-                    while (id < 1000 || id > 9999)
+                    while (id < NAM_MIN || id > NAM_MAX)
                     {
-                        Console.WriteLine("Le numéro d'assurance maladie doit être entre {0} et {1} ", 1000, 9999);
+                        Console.WriteLine("Le numéro d'assurance maladie doit être entre {0} et {1} ", NAM_MIN, NAM_MAX);
                         Console.Write("Numéro d'assurance maladie : ");
                         id = Convert.ToInt32(Console.ReadLine());
                     }
                     foreach (var p in _patients)
                     {
-                        if (id == p.IdPatient && !p.Mort)
+                        if (id == p.IdPatient)
                         {
-                            Console.WriteLine("---------------------");
-                            Console.WriteLine("Patient");
-                            Console.WriteLine("Numéro d'assurance maladie : " + p.IdPatient );
-                            Console.WriteLine("Nom : {0} {1} ", p.Prenom, p.Nom);
-                            Console.WriteLine("Medecin : {0} {1} {2}", p.SonMedecin.Identification, p.SonMedecin.Prenom, p.SonMedecin.Nom);
-                            break;
-                        }
-                        else
-                        {
+
                             Console.WriteLine("---------------------");
                             Console.WriteLine("Patient");
                             Console.WriteLine("Numéro d'assurance maladie : " + p.IdPatient);
                             Console.WriteLine("Nom : {0} {1} ", p.Prenom, p.Nom);
-                            Console.WriteLine("Décédé le {0}", p.Deces.ToShortDateString());
-                            break;
+                            if (!p.Mort)
+                            {
+                                Console.WriteLine("Medecin : {0} {1} {2}", p.SonMedecin.Identification, p.SonMedecin.Prenom, p.SonMedecin.Nom);
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Décédé le {0}", p.Deces.ToShortDateString());
+                                break;
+                            }
+
                         }
+
                     }
                 }
                 catch (FormatException)
@@ -251,6 +252,8 @@ namespace TP2
             Console.ReadKey(true);
         }
 
+        private const int NAM_MIN = 1000;
+        private const int NAM_MAX = 9999;
         private GestionnaireMedecins _gestionMedecin;
         private const string _nomFichierPatient = "patients.txt";
         List<Patient> _patients = new List<Patient>();

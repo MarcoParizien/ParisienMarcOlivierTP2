@@ -42,17 +42,17 @@ namespace TP2
         /// </summary>
         public Patient()
         {
-            
-            Console.Write("Numéro d'assurance maladie: ");
-            _nam = Convert.ToInt32(Console.ReadLine());
 
-            while (_nam < NAM_MIN || _nam > NAM_MAX)
+            Console.Write("Numéro d'assurance maladie: ");
+            _idPatient = Convert.ToInt32(Console.ReadLine());
+
+            while (_idPatient < NAM_MIN || _idPatient > NAM_MAX)
             {
                 try
                 {
                     Console.WriteLine("Valeur incorrecte. Le numéro d'assurance maladie doit être entre {0} et {1}", NAM_MIN, NAM_MAX);
                     Console.Write("Numéro d'assurance maladie: ");
-                    _nam = Convert.ToInt32(Console.ReadLine());
+                    _idPatient = Convert.ToInt32(Console.ReadLine());
                 }
                 catch (FormatException)
                 {
@@ -69,6 +69,11 @@ namespace TP2
         {
             get { return _deces; }
         }
+        /// <summary>
+        /// Indique si le patient est mort ou pas.
+        /// <returns>Vrai si la date de mort est différente que la Date par défaut</returns>
+        /// <return>Faux si la date de mort est égale à default(DateTime)</return>
+        /// </summary>
         public bool Mort
         {
             get { return _deces != default(DateTime) ? true : false; }
@@ -80,17 +85,19 @@ namespace TP2
         {
             get { return _idPatient; }
         }
+        /// <summary>
+        /// Représente le médecin d'un patient
+        /// </summary>
         public Medecin SonMedecin
         {
             get { return _monMedic; }
-            set { value = _monMedic; }
+            set { _monMedic = value; }
         }
 
         private readonly DateTime _deces;
-        private  Medecin _monMedic;
+        private Medecin _monMedic;
         private const string nomFichierPatients = "patients.txt";
         private readonly int _idPatient;
-        private readonly int _nam; //numéro d'assurance maladie
         private const int NAM_MIN = 1000;
         private const int NAM_MAX = 9999;
     }
